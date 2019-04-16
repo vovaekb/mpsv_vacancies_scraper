@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, render_template
 from core import Core
 
 app = Flask(__name__)
@@ -6,6 +6,10 @@ app = Flask(__name__)
 # Custom exception class
 class CustomError(Exception):
     """Some internal error"""
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 @app.errorhandler(CustomError)
 def handle_custom_exception(error):
