@@ -1,8 +1,8 @@
-from requests_html import HTMLSession
-import lxml.html as html
-import redis
-import json
 import re
+from typing import Literal
+
+import lxml.html as html
+from requests_html import HTMLSession
 
 
 class VacanciesScraper:
@@ -31,7 +31,8 @@ class VacanciesScraper:
         'Praha': '3100'
     }
 
-    def __init__(self, city: str and in ['Brno', 'Praha', 'Olomouc', 'Ostrava'], profession: str = 'developer'): #  page,
+    def __init__(self, city: Literal['Brno', 'Praha', 'Olomouc', 'Ostrava'],
+                 profession: str = 'developer'):
         # self.page = page
         self.positions = []
         self.district_code = VacanciesScraper.DISTRICT_CODES[city]
@@ -58,7 +59,7 @@ class VacanciesScraper:
             "_piref37_267288_37_267287_267287.kiosek": 0,
             "_piref37_267288_37_267287_267287.send": 'A',
             "_piref37_267288_37_267287_267287.ok": "Search",
-            "_piref37_267288_37_267287_267287.profese": [self.profession], # 'developer'
+            "_piref37_267288_37_267287_267287.profese": [self.profession],  # 'developer'
             "_piref37_267288_37_267287_267287.obor": "",
             "_piref37_267288_37_267287_267287.dopravaObec": "",
             "_piref37_267288_37_267287_267287.firma": "",
@@ -73,7 +74,8 @@ class VacanciesScraper:
         cleanr = re.compile(r'<.*?>')
 
         session = HTMLSession()
-        response = session.post(self.url, data=post_data)
+        response = session.post(self.url,
+                                data=post_data)
         tree = html.fromstring(response.text)
         position_elements = tree.cssselect('table.OKtbodyThDistinct tbody')
         for position_element in position_elements:
@@ -85,20 +87,22 @@ class VacanciesScraper:
             info_lines = position_element.cssselect('tr')
 
             for info_line in info_lines:
-                if('Company' in str(html.tostring(info_line))):
+                if ('Company' in str(html.tostring(info_line))):
                     company_list = info_line.cssselect('b')
                     company = ''
                     if (len(company_list)):
                         company = company_list[0].text
                         position['company'] = company
-                elif('Report to' in str(html.tostring(info_line))):
+                elif ('Report to' in str(html.tostring(info_line))):
                     reportto_element = info_line.cssselect('td')[2]
-                    reportto_str = str(html.tostring(reportto_element, encoding='unicode'))
+                    reportto_str = str(html.tostring(reportto_element,
+                                                     encoding='unicode'))
                     report_to = re.sub(cleanr, '', reportto_str)
                     position['report_to'] = report_to
-                elif('Comment on vacancy:' in str(html.tostring(info_line))):
+                elif ('Comment on vacancy:' in str(html.tostring(info_line))):
                     description_element = info_line.cssselect('td')[0]
-                    description_str = str(html.tostring(description_element, encoding='unicode'))
+                    description_str = str(html.tostring(description_element,
+                                                        encoding='unicode'))
                     description = re.sub(cleanr, '', description_str)
                     position['description'] = description
 

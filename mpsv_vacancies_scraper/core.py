@@ -1,8 +1,11 @@
-from redis import StrictRedis
+import json
+
 import redis
+from redis import StrictRedis
+
 from config import redis_config
 from scraper import VacanciesScraper
-import json
+
 
 class Core:
     redis = StrictRedis(**redis_config)
@@ -28,7 +31,7 @@ class Core:
             vacancies_data = json.dumps(vacancies_data)
             self.redis.setex(
                 redis_key,
-                60*60,
+                60 * 60,
                 vacancies_data
             )
             return (vacancies_data, None)
