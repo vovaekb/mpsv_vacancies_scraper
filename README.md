@@ -6,20 +6,20 @@ Two clients:
 - CLI script
 
 ## Flask REST API
-To run Flask app
+🚀 To run Flask app
 ```
 python api.py
 ```
 
 ### Test in browser
-Navigate to url http://127.0.0.1:5000/ in browser.
+🌐 Navigate to url http://127.0.0.1:5000/ in browser.
 
 REST API endpoints:
 
 * /search (GET) - parsing currency rates from cbr.ru API. Accepts query parameters: city (city to search job positions), profession(speciality). Returns JSON with list of job positions.
 
 ## CLI script
-To run script
+🖥️ To run script
 ```
 python cli.py --city <city> --profession <profession>
 ```
