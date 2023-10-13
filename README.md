@@ -1,6 +1,6 @@
 # mpsv_vacancies_scraper
 
-Parser script for obtaining job positions published on official portal of The Ministry of Labour and Social Affairs of Czech republic ([https://www.mpsv.cz/](https://www.mpsv.cz/)).
+👨‍💼 Parser script for obtaining job positions published on official portal of The Ministry of Labour and Social Affairs of Czech republic ([https://www.mpsv.cz/](https://www.mpsv.cz/)).
 Two clients:
 - Flask REST API
 - CLI script
